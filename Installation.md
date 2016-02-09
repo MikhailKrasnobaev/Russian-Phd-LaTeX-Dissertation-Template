@@ -4,6 +4,7 @@
 * Установка
   * [В Ubuntu](#В-ubuntu)
   * [В Fedora](#В-fedora)
+  * [В Windows](#В-windows)
   * [TeXLive на Linux в обход привязанных к конкретному линуксу пакетам](#texlive-на-linux-в-обход-привязанных-к-конкретному-линуксу-пакетам)
   * [Установка шрифтов PSCyr](#Установка-шрифтов-pscyr)
     * [Рабочий способ установки в Ubuntu 15.10](#Рабочий-способ-установки-в-ubuntu-1510)
@@ -70,6 +71,13 @@ $ sudo fc-cache -fv
 ```
 
 > В Fedora 23 есть проблема ([#84](https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template/issues/84)) с компиляцией библиографии с помощью `biblatex` и `biber`, поэтому необходимо переключиться на использование `bibtex`. Для этого в файле `Dissertation/setup.tex` переключите `\setcounter{bibliosel}{1}` в `0`, чтобы получилось `\setcounter{bibliosel}{0}`. Туже самую операцию повторите в файле `Synopsis/setup.tex`.
+
+### В Windows
+
+>Протестировано в Windows 7.
+
+В зависимости от битности ОС устанавливаете MiKTex 2.9 [MiKTeX 2.9 Setup](http://miktex.org/2.9/setup), после устанавливаете редактор LaTeX документов. Дождаться окончания установки MiKTeX желательно, тогда не придется вручную прописывать пути к файлам. Был протестирован [Texmaker](http://www.xm1math.net/texmaker/download.html).
+При первой компиляции шаблона система подгружает необходимые пакеты (может занять 10-15 минут).
 
 ### TeXLive на Linux в обход привязанных к конкретному линуксу пакетам
 [How to install “vanilla” TeXLive on Debian or Ubuntu?](http://tex.stackexchange.com/a/95373/79756) — инструкция на английском языке, как ставить TeXLive на Linux в обход привязанных к конкретному линуксу пакетам (на примере Debian и Ubuntu).
