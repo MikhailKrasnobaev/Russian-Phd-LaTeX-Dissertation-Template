@@ -1,50 +1,19 @@
-.PHONY: synopsis dissertation preformat pdflatex talk dissertation-preformat dissertation-formated synopsis-preformat clean distclean release draft
+all:	talk
 
-all: synopsis dissertation
+talk:	pdf
+	#	latexmk -pdf -pdflatex="xelatex %O %S" presentation.tex
 
-preformat: synopsis-preformat dissertation-preformat
-
-dissertation:
-	#	$(MAKE) -C Dissertation
-	latexmk -pdf -pdflatex="xelatex %O %S" dissertation
-
-pdflatex:
-	latexmk -pdf -pdflatex="pdflatex %O %S" dissertation
-
-synopsis:
-	#	$(MAKE) -C Synopsis
-	latexmk -pdf -pdflatex="xelatex %O %S" synopsis
-draft:	
-	latexmk -pdf -pdflatex="xelatex %O '\newcounter{draft}\setcounter{draft}{1}\input{%S}'" dissertation
-	latexmk -pdf -pdflatex="xelatex %O '\newcounter{draft}\setcounter{draft}{1}\input{%S}'" synopsis
-
-talk:
-	$(MAKE) talk -C Presentation
-
-dissertation-preformat:
-	etex -ini "&latex" mylatexformat.ltx """dissertation.tex"""
-	latexmk -pdf -jobname=dissertation -silent --shell-escape dissertation.tex
-
-dissertation-formated:
-	latexmk -pdf -jobname=dissertation -silent --shell-escape dissertation.tex
-
-synopsis-preformat:
-	etex -ini "&latex" mylatexformat.ltx """synopsis.tex"""
-	latexmk -pdf -jobname=synopsis -silent --shell-escape synopsis.tex
+pdf:
+	latexmk -pdf -jobname=presentation -silent  presentation.tex
+# xedraft:
+# 	xelatex -ini "&pdflatex draft-preamble.tex\dump"
+# 	latexmk -pdf -pdflatex="xelatex %O %S" draft
 
 clean:
-	#	$(MAKE) clean -C Dissertation
-	latexmk -C dissertation
-	rm -f dissertation.bbl
-	#	$(MAKE) clean -C Synopsis
-	latexmk -C synopsis
+	latexmk -C presentation
 	rm -f synopsis.bbl
-	$(MAKE) clean -C Presentation
 
 distclean:
-	$(MAKE) distclean -C Dissertation
-	$(MAKE) distclean -C Synopsis
-	$(MAKE) distclean -C Presentation
 	## Core latex/pdflatex auxiliary files:
 	rm -f *.aux
 	rm -f *.lof
@@ -66,6 +35,8 @@ distclean:
 	rm -f *.bbl
 	rm -f *.bcf
 	rm -f *.blg
+
+
 	rm -f *-blx.aux
 	rm -f *-blx.bib
 	rm -f *.brf
@@ -226,7 +197,3 @@ distclean:
 	rm -f *.bak
 	rm -f *.bcf
 	rm -f *.run.xml
-
-release: all
-	git add dissertation.pdf
-	git add synopsis.pdf

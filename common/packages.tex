@@ -1,5 +1,5 @@
 %%% Проверка используемого TeX-движка %%%
-\usepackage{iftex}
+\usepackage{iftex}[2013/04/04]
 \newif\ifxetexorluatex   % определяем новый условный оператор (http://tex.stackexchange.com/a/47579/79756)
 \ifXeTeX
     \xetexorluatextrue
@@ -10,6 +10,8 @@
         \xetexorluatexfalse
     \fi
 \fi
+
+\RequirePackage{etoolbox}[2015/08/02]               % Для продвинутой проверки разных условий
 
 %%% Поля и разметка страницы %%%
 \usepackage{pdflscape}                              % Для включения альбомных страниц
@@ -33,7 +35,7 @@
 
 %%% Кодировки и шрифты %%%
 \ifxetexorluatex
-    \usepackage{polyglossia}                        % Поддержка многоязычности (fontspec подгружается автоматически)
+    \usepackage{polyglossia}[2014/05/21]            % Поддержка многоязычности (fontspec подгружается автоматически)
 \else
     \RequirePDFTeX                                  % tests for PDFTEX use and throws an error if a different engine is being used
    %%% Решение проблемы копирования текста в буфер кракозябрами
@@ -43,8 +45,8 @@
     \usepackage{cmap}                               % Улучшенный поиск русских слов в полученном pdf-файле
     \defaulthyphenchar=127                          % Если стоит до fontenc, то переносы не впишутся в выделяемый текст при копировании его в буфер обмена
     \usepackage[T2A]{fontenc}                       % Поддержка русских букв
-    \usepackage[utf8]{inputenc}                     % Кодировка utf8
-    \usepackage[english, russian]{babel}            % Языки: русский, английский
+    \usepackage[utf8]{inputenc}[2014/04/30]         % Кодировка utf8
+    \usepackage[english, russian]{babel}[2014/03/24]% Языки: русский, английский
     \IfFileExists{pscyr.sty}{\usepackage{pscyr}}{}  % Красивые русские шрифты
 \fi
 
@@ -58,8 +60,7 @@
 
 %%% Таблицы %%%
 \usepackage{longtable}                              % Длинные таблицы
-\usepackage{multirow,makecell,array}                % Улучшенное форматирование таблиц
-\usepackage{booktabs}                               % Возможность оформления таблиц в классическом книжном стиле (при правильном использовании не противоречит ГОСТ)
+\usepackage{multirow,makecell}                      % Улучшенное форматирование таблиц
 
 %%% Общее форматирование
 \usepackage{soulutf8}                               % Поддержка переносоустойчивых подчёркиваний и зачёркиваний
@@ -67,20 +68,17 @@
 
 
 %%% Гиперссылки %%%
-\usepackage{hyperref}
+\usepackage{hyperref}[2012/11/06]
 
 %%% Изображения %%%
-\usepackage{graphicx}                               % Подключаем пакет работы с графикой
+\usepackage{graphicx}[2014/04/25]                   % Подключаем пакет работы с графикой
 
 %%% Списки %%%
 \usepackage{enumitem}
 
 %%% Подписи %%%
-\usepackage{caption}                                % Для управления подписями (рисунков и таблиц) % Может управлять номерами рисунков и таблиц с caption %Иногда может управлять заголовками в списках рисунков и таблиц
-\usepackage{subcaption}                             % Работа с подрисунками и подобным
-
-%%% Интервалы %%%
-\usepackage[onehalfspacing]{setspace}               % Опция запуска пакета правит не только интервалы в обычном тексте, но и формульные
+\usepackage{caption}[2013/05/02]                    % Для управления подписями (рисунков и таблиц) % Может управлять номерами рисунков и таблиц с caption %Иногда может управлять заголовками в списках рисунков и таблиц
+\usepackage{subcaption}[2013/02/03]                 % Работа с подрисунками и подобным
 
 %%% Счётчики %%%
 \usepackage[figure,table]{totalcount}               % Счётчик рисунков и таблиц
@@ -94,4 +92,13 @@
     \usepackage[russian]{cleveref}                  % cleveref имеет сложности со считыванием языка из babel. Такое решение русификации вывода выбрано вместо определения в documentclass из опасности что-то лишнее передать во все остальные пакеты, включая библиографию.
 \fi
 \creflabelformat{equation}{#2#1#3}                  % Формат по умолчанию ставил круглые скобки вокруг каждого номера ссылки, теперь просто номера ссылок без какого-либо дополнительного оформления
+
+
+\ifnumequal{\value{draft}}{1}{% Черновик
+    \usepackage[firstpage]{draftwatermark}
+    \SetWatermarkText{DRAFT}
+    \SetWatermarkFontSize{14pt}
+    \SetWatermarkScale{15}
+    \SetWatermarkAngle{45}
+}{}
 
